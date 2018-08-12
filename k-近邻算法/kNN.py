@@ -34,3 +34,26 @@ def classify0(inX, dataSet, labels, k):
     finalClass = sortedClassCount[0][0]
     
     return finalClass
+
+def readfile2Mat(filename):
+    myfile = open(filename)
+    #读取整个文件得到一个字符串列表，每一行为一个字符串
+    listLines = myfile.readlines()
+    #得到文件行数
+    numbersOfLines = len(listLines)
+    #创建一个矩阵，元素初始化为0
+    returnMat = zeros((numbersOfLines,3))
+    #类标签向量
+    labelVector = []   
+    count = 0
+    for line in listLines:
+        #去掉该行字符串两边的空格
+        line = line.strip()
+        #以制表符\t为分隔符切片string，将整行数据分割成一个元素列表
+        listFromLine = line.split('\t')
+        #将该行数据的前三个数据赋值给对应的矩阵行
+        returnMat[count,:] = listFromLine[0:3]
+        #将该行的最后一个数据，添加到对应的类标签位置
+        labelVector.append(int(listFromLine[-1]))
+        count += 1
+    return returnMat,labelVector
