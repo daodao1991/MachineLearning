@@ -39,6 +39,9 @@ def readfile2Mat(filename):
     myfile = open(filename)
     #读取整个文件得到一个字符串列表，每一行为一个字符串
     listLines = myfile.readlines()
+    #删除前n行数据(标题),n自己定
+    for i in range(5):
+        listLines.remove(listLines[0])
     #得到文件行数
     numbersOfLines = len(listLines)
     #创建一个矩阵，元素初始化为0
@@ -50,10 +53,12 @@ def readfile2Mat(filename):
         #去掉该行字符串两边的空格
         line = line.strip()
         #以制表符\t为分隔符切片string，将整行数据分割成一个元素列表
-        listFromLine = line.split('\t')
+        listFromLine = line.split('\t\t\t')
+        #将列表中的每个字符串型元素转换为浮点数
+        listFromLine2 = [float(i) for i in listFromLine]
         #将该行数据的前三个数据赋值给对应的矩阵行
-        returnMat[count,:] = listFromLine[0:3]
+        returnMat[count,:] = listFromLine2[0:3]
         #将该行的最后一个数据，添加到对应的类标签位置
-        labelVector.append(int(listFromLine[-1]))
+        labelVector.append(int(listFromLine2[-1]))
         count += 1
     return returnMat,labelVector
