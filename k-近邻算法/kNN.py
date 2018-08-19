@@ -62,3 +62,15 @@ def readfile2Mat(filename):
         labelVector.append(int(listFromLine2[-1]))
         count += 1
     return returnMat,labelVector
+
+dataMat,dataLabels = readfile2Mat('datingTestSet.txt')
+
+#利用Python中的matplotlib库来图形化展示数据
+import matplotlib
+import matplotlib.pyplot as plt
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.scatter(dataMat[:,1], dataMat[:,2], 15.0*array(dataLabels), 15.0*array(dataLabels))
+plt.show()
+
+
