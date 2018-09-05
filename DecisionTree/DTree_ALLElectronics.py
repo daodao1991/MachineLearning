@@ -5,7 +5,7 @@ from sklearn.feature_extraction import DictVectorizer
 import csv
 from sklearn import preprocessing
 from sklearn import tree
-
+from sklearn.externals.six import StringIO
 
 '''
 读取csv文件，并将数据转换为特征列表和标记列表的形式，因为必须将数据转换为
@@ -54,3 +54,19 @@ clf = tree.DecisionTreeClassifier(criterion='entropy') #默认采用CART算法�
 clf = clf.fit(dummyX, dummyY)          #type(clf) --><class 'sklearn.tree.tree.DecisionTreeClassifier'>
 
 print('clf: ' + '\n' + str(clf))
+
+# 可视化模型
+with open('allElectronicInformationGain.dot','w') as f:
+    f = tree.export_graphviz(clf, feature_names=vec.get_feature_names(), out_file=f)
+
+# 利用上述模型进行预测
+oneRowX = dummyX[5,:]                  #随便取了dummyX中的某一行
+print('oneRowX: ' + str(oneRowX))
+
+newRowX = oneRowX                      #在原来基础上做些改动，生成一个新的示例
+newRowX[0] = 1
+newRowX[1] = 0
+print('newRowX: ' + str(newRowX))
+
+predictedY = clf.predict(newRowX.reshape(-1,10))  #对新数据进行预测
+print('predictedY: ' + str(predictedY))
